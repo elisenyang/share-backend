@@ -11,6 +11,7 @@ var mongoose = require('mongoose');
 var connect = process.env.MONGODB_URI;
 
 mongoose.connect(connect);
+mongoose.Promise = global.Promise;
 
 var models = require('./models/models')
 var User = models.User
@@ -29,31 +30,66 @@ app.get('/posts', function(req,res) {
     if (err) {
       res.status(500).send({error: 'Posts could not be found'})
     }
-    res.status(200).json(docs)
+    // res.status(200).json(docs)
+  }).then(docs => {
+    var promises = []
+    docs.forEach(post => {
+      promises.push(
+        User.findById(post.user.id, function(err, user) {
+          if (err) {
+            console.log(err)
+          }
+        }).then(user=> {
+          post.user.userInfo = user.userInfo
+          return post;
+        })
+      )
+    })
+    Promise.all(promises)
+    .then((resp) => {
+      res.json(resp)
+    })
   })
 })
 
 app.post('/userInfo', function(req, res) {
   var posts = req.body.posts
-  function retrieveUserInfo(id, callback) {
-    User.findById(id, function(err, user) {
-      if (err) {
-        callback(err, null);
-      } else {
-        callback(null, user);
-      }
-    });
-  }
-  Promise.all(posts.map((post)=> {
-    return retrieveUserInfo(post.user.id, function(err, user) {
-      if (err) {
-        console.log(err)
-      }
-      post.user.userInfo = user.userInfo
-    })
-  })).then((updatedPosts)=> {
-    console.log(updatedPosts)
-    res.json({success: posts})
+  // function retrieveUserInfo(id, callback) {
+  //   User.findById(id, function(err, user) {
+  //     if (err) {
+  //       callback(err, null);
+  //     } else {
+  //       callback(null, user);
+  //     }
+  //   });
+  // }
+  // Promise.all(posts.map((post)=> {
+  //   return retrieveUserInfo(post.user.id, function(err, user) {
+  //     if (err) {
+  //       console.log(err)
+  //     }
+  //     post.user.userInfo = user.userInfo
+  //   })
+  // })).then((updatedPosts)=> {
+  //   console.log(updatedPosts)
+  //   res.json({success: posts})
+  // })
+  var promises = []
+  posts.forEach(post => {
+    promises.push(
+      User.findById(post.user.id, function(err, user) {
+        if (err) {
+          console.log(err)
+        }
+      }).then(user=> {
+        post.user.userInfo = user.userInfo
+        return post;
+      })
+    )
+  })
+  Promise.all(promises)
+  .then((resp) => {
+    res.json({success: resp})
   })
 })
 
