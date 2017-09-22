@@ -17,6 +17,8 @@ var models = require('./models/models')
 var User = models.User
 var Post = models.Post
 
+const routes = require('./routes/routes');
+const auth = require('./routes/auth');
 const app = express();
 
 app.use(logger('tiny'));
@@ -24,105 +26,52 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+//Passport
+app.use(session({
+  secret: process.env.SECRET,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 
-app.get('/posts', function(req,res) {
-  Post.find(function(err, docs) {
+app.set('view engine', 'html');
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  models.User.findById(id, done);
+});
+
+// passport strategy
+passport.use(new LocalStrategy(function(username, password, done) {
+  // Find the user with the given email
+  models.User.findOne({ email: username }, function (err, user) {
+    // if there's an error, finish trying to authenticate (auth failed)
     if (err) {
-      res.status(500).send({error: 'Posts could not be found'})
+      console.error('Error fetching user in LocalStrategy', err);
+      return done(err);
     }
-    // res.status(200).json(docs)
-  }).then(docs => {
-    var promises = []
-    docs.forEach(post => {
-      promises.push(
-        User.findById(post.user.id, function(err, user) {
-          if (err) {
-            console.log(err)
-          }
-        }).then(user=> {
-          post.user.userInfo = user.userInfo
-          return post;
-        })
-      )
-    })
-    Promise.all(promises)
-    .then((resp) => {
-      res.json(resp)
-    })
-  })
-})
+    // if no user present, auth failed
+    if (!user) {
+      return done(null, false, { message: 'Incorrect email.' });
+    }
+    // if passwords do not match, auth failed
+    if (user.password !== password) {
+      return done(null, false, { message: 'Incorrect password.' });
+    }
+    // auth has has succeeded
+    return done(null, user);
+  });
+}
+));
 
-app.post('/userInfo', function(req, res) {
-  var posts = req.body.posts
-  // function retrieveUserInfo(id, callback) {
-  //   User.findById(id, function(err, user) {
-  //     if (err) {
-  //       callback(err, null);
-  //     } else {
-  //       callback(null, user);
-  //     }
-  //   });
-  // }
-  // Promise.all(posts.map((post)=> {
-  //   return retrieveUserInfo(post.user.id, function(err, user) {
-  //     if (err) {
-  //       console.log(err)
-  //     }
-  //     post.user.userInfo = user.userInfo
-  //   })
-  // })).then((updatedPosts)=> {
-  //   console.log(updatedPosts)
-  //   res.json({success: posts})
-  // })
-  var promises = []
-  posts.forEach(post => {
-    promises.push(
-      User.findById(post.user.id, function(err, user) {
-        if (err) {
-          console.log(err)
-        }
-      }).then(user=> {
-        post.user.userInfo = user.userInfo
-        return post;
-      })
-    )
-  })
-  Promise.all(promises)
-  .then((resp) => {
-    res.json({success: resp})
-  })
-})
+app.use('/', auth(passport));
+app.use('/', routes);
 
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
-
-app.post('/register', function(req,res) {
-
-  let newUser = new User({
-    email: req.body.email,
-    password: req.body.password,
-    userInfo: {
-      year: req.body.userInfo.year,
-      school: req.body.userInfo.school,
-      gender: req.body.userInfo.gender,
-      age: req.body.userInfo.age
-    }
-  })
-  
-  if (req.body.email && req.body.password) {
-    newUser.save(function(err) {
-      if (err) {
-        res.status(500).json({error: 'Registration Failed. Please try again'})
-      } else {
-        res.status(200).json({success: 'Registration successful'})
-      }
-    })
-  } else if (!req.body.email) {
-    res.json({error: 'You must enter a valid email'})
-  } else if (!req.body.password) {
-    res.json({error: 'You must provide a valid password'})
-  }
-})
 
 
 var port = process.env.PORT || 3000;
