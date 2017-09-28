@@ -70,8 +70,6 @@ passport.use(new LocalStrategy(function(username, password, done) {
 app.use('/', auth(passport));
 app.use('/', routes);
 
-var bcrypt = require('bcrypt');
-const saltRounds = 10;
 
 
 var port = process.env.PORT || 3000;
