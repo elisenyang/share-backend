@@ -149,6 +149,15 @@ router.post('/updateInfo', function(req,res) {
   })
 })
 
+router.post('/delete', function(req,res) {
+  Post.remove({ _id:req.body.postId}, function(err) {
+    if (err) {
+      res.json({error: err.message})
+    }
+    res.json({success: true})
+  })
+})
+
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
 
 module.exports = router;
