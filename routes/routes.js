@@ -61,6 +61,7 @@ router.get('/posts', function(req,res) {
         res.json(resp)
       })
     })
+    }
   })
   
   router.post('/userInfo', function(req, res) {
