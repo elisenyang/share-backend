@@ -18,6 +18,7 @@ router.use(function(req, res, next){
 // Only logged in users can see these routes
 
 router.get('/posts', function(req,res) {
+  console.log('HERE', req.query)
   Post.find(function(err, docs) {
     if (err) {
       res.status(500).send({error: 'Posts could not be found'})
