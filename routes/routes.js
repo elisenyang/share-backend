@@ -20,7 +20,7 @@ router.use(function(req, res, next){
 router.get('/posts', function(req,res) {
 
   if (req.query.myposts) {
-    Post.find().where('user.id', req.user_id).exec(function(posts) {
+    Post.find().where('user', {id: req.user_id}).exec(function(posts) {
       console.log('YO', posts)
     })
   } else {
