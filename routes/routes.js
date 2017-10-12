@@ -22,6 +22,9 @@ router.get('/posts', function(req,res) {
   if (req.query.myposts) {
     Post.find({"user.id": String(req.user._id)}, function(err, posts) {
       console.log('HERE', posts)
+    }).then(posts => {
+      res.json({posts: posts})
+      return;
     })
   } else {
     Post.find(function(err, docs) {
