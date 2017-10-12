@@ -28,7 +28,9 @@ router.get('/posts', function(req,res) {
         res.json({success: posts})
       }
     })
-  } else {
+  } 
+
+  else {
     Post.find(function(err, docs) {
       if (err) {
         res.status(500).send({error: 'Posts could not be found'})
@@ -61,30 +63,28 @@ router.get('/posts', function(req,res) {
         res.json(resp)
       })
     })
-    }
-  })
-  
-  router.post('/userInfo', function(req, res) {
-    var posts = req.body.posts
-    var promises = []
-    posts.forEach(post => {
-      promises.push(
-        User.findById(post.user.id, function(err, user) {
-          if (err) {
-            console.log(err)
-          }
-        }).then(user=> {
-          post.user.userInfo = user.userInfo
-          return post;
-        })
-      )
-    })
-    Promise.all(promises)
-    .then((resp) => {
-      res.json({success: resp})
-    })
   }
-  
+})
+
+router.post('/userInfo', function(req, res) {
+  var posts = req.body.posts
+  var promises = []
+  posts.forEach(post => {
+    promises.push(
+      User.findById(post.user.id, function(err, user) {
+        if (err) {
+          console.log(err)
+        }
+      }).then(user=> {
+        post.user.userInfo = user.userInfo
+        return post;
+      })
+    )
+  })
+  Promise.all(promises)
+  .then((resp) => {
+    res.json({success: resp})
+  })
 })
 
 router.post('/ask', function(req,res) {
