@@ -20,7 +20,7 @@ router.use(function(req, res, next){
 router.get('/posts', function(req,res) {
 
   if (req.query.myposts) {
-    Post.find({ user: {id: req.user._id}}, function(err, posts) {
+    Post.find({user: {id: req.user._id, animal: "Lion"}}, function(err, posts) {
       if (err) {
         res.status(500).send({error: 'Posts could not be found'})
       } else {
