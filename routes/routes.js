@@ -21,10 +21,35 @@ router.get('/posts', function(req,res) {
   console.log('id', req.user._id)
   if (req.query.myposts) {
     Post.find({"user.id": String(req.user._id)}, function(err, posts) {
-      console.log('HERE', posts)
-    }).then(posts => {
-      res.json({posts: posts})
-      return;
+      if (err) {
+        res.status(500).send({error: 'Posts could not be found'})
+      }
+    }).then(docs => {
+      var promises = []
+      docs.forEach(post => {
+        promises.push(
+          User.findById(post.user.id, function(err, user) {
+            if (err) {
+              console.log(err)
+            }
+          }).then(user=> {
+            post.user.userInfo = user.userInfo
+            return post;
+          })
+        )
+      })
+      Promise.all(promises)
+      .then((resp) => {
+        var sorted = resp.sort(function(a,b) {
+           if (b.date > a.date) {
+             return 1
+           }
+           if (b.date < a.date) {
+             return -1
+           }
+        })
+        res.json(resp)
+      })
     })
   } else {
     Post.find(function(err, docs) {
