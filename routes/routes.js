@@ -18,10 +18,10 @@ router.use(function(req, res, next){
 // Only logged in users can see these routes
 
 router.get('/posts', function(req,res) {
-
+  console.log('id', req.user._id)
   if (req.query.myposts) {
-    Post.find().where('user', {id: req.user_id}).exec(function(posts) {
-      console.log('YO', posts)
+    Post.find({'user.id': req.user._id}, function(err, posts) {
+      console.log('HERE', posts)
     })
   } else {
     Post.find(function(err, docs) {
