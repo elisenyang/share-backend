@@ -20,13 +20,8 @@ router.use(function(req, res, next){
 router.get('/posts', function(req,res) {
 
   if (req.query.myposts) {
-    Post.find({user: {id: req.user._id, animal: "Lion"}}, function(err, posts) {
-      if (err) {
-        res.status(500).send({error: 'Posts could not be found'})
-      } else {
-        console.log('YO', posts)
-        res.json({success: posts})
-      }
+    Post.find().where('user.id', req.user_id).exec(function(posts) {
+      console.log('YO', posts)
     })
   } else {
     Post.find(function(err, docs) {
