@@ -19,14 +19,54 @@ router.use(function(req, res, next){
 
 router.get('/posts', function(req,res) {
   console.log('HERE', req.query, req.user)
-  Post.find(function(err, docs) {
-    if (err) {
-      res.status(500).send({error: 'Posts could not be found'})
-    }
-    // res.status(200).json(docs)
-  }).then(docs => {
+
+  if (req.query.myposts) {
+    Post.find({ 'user.id': req.user._id}, function(err, posts) {
+      if (err) {
+        res.status(500).send({error: 'Posts could not be found'})
+      } else {
+        res.json({success: posts})
+      }
+    })
+  } else {
+    Post.find(function(err, docs) {
+      if (err) {
+        res.status(500).send({error: 'Posts could not be found'})
+      }
+      // res.status(200).json(docs)
+    }).then(docs => {
+      var promises = []
+      docs.forEach(post => {
+        promises.push(
+          User.findById(post.user.id, function(err, user) {
+            if (err) {
+              console.log(err)
+            }
+          }).then(user=> {
+            post.user.userInfo = user.userInfo
+            return post;
+          })
+        )
+      })
+      Promise.all(promises)
+      .then((resp) => {
+        var sorted = resp.sort(function(a,b) {
+           if (b.date > a.date) {
+             return 1
+           }
+           if (b.date < a.date) {
+             return -1
+           }
+        })
+        res.json(resp)
+      })
+    })
+  })
+  
+  router.post('/userInfo', function(req, res) {
+    var posts = req.body.posts
     var promises = []
-    docs.forEach(post => {
+    posts.forEach(post => {
       promises.push(
         User.findById(post.user.id, function(err, user) {
           if (err) {
@@ -40,38 +80,10 @@ router.get('/posts', function(req,res) {
     })
     Promise.all(promises)
     .then((resp) => {
-      var sorted = resp.sort(function(a,b) {
-         if (b.date > a.date) {
-           return 1
-         }
-         if (b.date < a.date) {
-           return -1
-         }
-      })
-      res.json(resp)
+      res.json({success: resp})
     })
-  })
-})
-
-router.post('/userInfo', function(req, res) {
-  var posts = req.body.posts
-  var promises = []
-  posts.forEach(post => {
-    promises.push(
-      User.findById(post.user.id, function(err, user) {
-        if (err) {
-          console.log(err)
-        }
-      }).then(user=> {
-        post.user.userInfo = user.userInfo
-        return post;
-      })
-    )
-  })
-  Promise.all(promises)
-  .then((resp) => {
-    res.json({success: resp})
-  })
+  }
+  
 })
 
 router.post('/ask', function(req,res) {
