@@ -21,11 +21,17 @@ var postSchema = mongoose.Schema({
   replies: []
 })
 
+var countSchema = mongoose.Schema({
+  count: Object
+})
+
 
 User = mongoose.model('User', userSchema);
-Post = mongoose.model('Post', postSchema)
+Post = mongoose.model('Post', postSchema);
+Count = mongoose.model('Count', countSchema);
 
 module.exports = {
     User: User,
-    Post: Post
+    Post: Post,
+    Count: Count
 };

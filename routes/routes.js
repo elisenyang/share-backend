@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models/models');
 var User = models.User;
-var Post = models.Post
+var Post = models.Post;
+var Count = models.Coount;
 
 ///////////////////////////// END OF PUBLIC ROUTES /////////////////////////////
 
@@ -57,7 +58,7 @@ router.get('/posts', function(req,res) {
         res.status(500).send({error: 'Posts could not be found'})
       }
       // res.status(200).json(docs)
-    }).limit(5).then(docs => {
+    }).limit(10).then(docs => {
       var promises = []
       docs.forEach(post => {
         promises.push(
@@ -191,6 +192,11 @@ router.post('/delete', function(req,res) {
     }
     res.json({success: true})
   })
+})
+
+router.post('/count', function(req,res) {
+  console.log(req.body)
+  res.send('HI')
 })
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
