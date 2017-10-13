@@ -197,7 +197,7 @@ router.post('/delete', function(req,res) {
 router.post('/count', function(req,res) {
   console.log(req.body)
   Count.find(function(err, count) {
-    console.log(count[0])
+    console.log('HERE', count)
   })
   res.send('HI')
 })
