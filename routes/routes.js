@@ -198,7 +198,7 @@ router.post('/count', function(req,res) {
   Count.find(function(err, count) {
     var updateCount = count[0].toJSON()
     console.log('HERE1', updateCount)
-    updateCount.count[req.body.username] = updateCount[req.body.username]++
+    updateCount.count[req.body.username] = updateCount.count[req.body.username] +1
     console.log('HERE2', updateCount)
     // count[0] = updateCount
     // count.save(function(err) {
