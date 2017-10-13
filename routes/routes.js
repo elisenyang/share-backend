@@ -197,15 +197,16 @@ router.post('/delete', function(req,res) {
 router.post('/count', function(req,res) {
   Count.find(function(err, count) {
     var updateCount = count[0].toJSON()
-    updateCount.count[req.body.username] = Number(updateCount[req.body.username]) + 1
-    count[0] = updateCount
-    count.save(function(err) {
-      if (err) {
-        res.json({success: false})
-      } else {
-        res.json({success: true})
-      }
-    })
+    console.log('HERE', updateCount)
+    // updateCount.count[req.body.username] = Number(updateCount[req.body.username]) + 1
+    // count[0] = updateCount
+    // count.save(function(err) {
+    //   if (err) {
+    //     res.json({success: false})
+    //   } else {
+    //     res.json({success: true})
+    //   }
+    // })
   })
 })
 
