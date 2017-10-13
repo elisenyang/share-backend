@@ -196,12 +196,17 @@ router.post('/delete', function(req,res) {
 
 router.post('/count', function(req,res) {
   Count.find(function(err, count) {
-    if (err) {
-      console.log('Error',err)
-    }
-    console.log('HERE', count)
+    var updateCount = count[0].toJSON()
+    updateCount.count[req.body.username] = Number(updateCount[req.body.username])++
+    count[0] = updateCount
+    count.save(function(err) {
+      if (err) {
+        res.json({success: false})
+      } else {
+        res.json({success: true})
+      }
+    })
   })
-  res.send('HI')
 })
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
