@@ -200,14 +200,14 @@ router.post('/count', function(req,res) {
     console.log('HERE1', updateCount)
     updateCount.count[req.body.username] = updateCount.count[req.body.username] +1
     console.log('HERE2', updateCount)
-    // count[0] = updateCount
-    // count.save(function(err) {
-    //   if (err) {
-    //     res.json({success: false})
-    //   } else {
-    //     res.json({success: true})
-    //   }
-    // })
+    count[0] = updateCount
+    count.save(function(err) {
+      if (err) {
+        res.json({success: false})
+      } else {
+        res.json({success: true})
+      }
+    })
   })
 })
 
