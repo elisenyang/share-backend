@@ -58,7 +58,7 @@ router.get('/posts', function(req,res) {
         res.status(500).send({error: 'Posts could not be found'})
       }
       // res.status(200).json(docs)
-    }).limit(10).then(docs => {
+    }).then(docs => {
       var promises = []
       docs.forEach(post => {
         promises.push(
