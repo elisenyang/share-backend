@@ -3,7 +3,7 @@ var router = express.Router();
 var models = require('../models/models');
 var User = models.User;
 var Post = models.Post;
-var Count = models.Coount;
+var Count = models.Count;
 
 ///////////////////////////// END OF PUBLIC ROUTES /////////////////////////////
 
@@ -195,8 +195,10 @@ router.post('/delete', function(req,res) {
 })
 
 router.post('/count', function(req,res) {
-  console.log(req.body)
   Count.find(function(err, count) {
+    if (err) {
+      console.log('Error',err)
+    }
     console.log('HERE', count)
   })
   res.send('HI')
