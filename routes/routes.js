@@ -84,7 +84,7 @@ router.get('/posts', function(req,res) {
         })
         var sliced = resp.slice((req.query.page*10)-10, req.query.page*10)
         console.log('here', sliced)
-        res.json(sliced)
+        res.json({arr: sliced})
       })
     })
   }
