@@ -196,7 +196,7 @@ router.post('/delete', function(req,res) {
 
 router.post('/count', function(req,res) {
   Count.find(function(err, count) {
-    var updateCount = count[0].count
+    var updateCount = Object.assign({}, count[0].count)
     console.log('HERE1', updateCount)
     updateCount[req.body.username] = updateCount[req.body.username] + 1;
     console.log('HERE2', updateCount)
