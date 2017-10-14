@@ -46,5 +46,10 @@ module.exports = function (passport) {
         res.json({error: 'Login Failed'})
     })
 
+    router.get('/logout', function(req, res) {
+        req.logout()
+        res.json({success: true})
+    });
+
     return router;
 };

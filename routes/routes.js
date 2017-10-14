@@ -19,7 +19,6 @@ router.use(function(req, res, next){
 // Only logged in users can see these routes
 
 router.get('/posts', function(req,res) {
-  console.log('id', req.user._id)
   if (req.query.myposts) {
     Post.find({"user.id": String(req.user._id)}, function(err, posts) {
       if (err) {
@@ -87,7 +86,6 @@ router.get('/posts', function(req,res) {
           end = req.query.page*10
         }
         var sliced = resp.slice((req.query.page*10)-10, end)
-        console.log('here', sliced)
         res.json({arr: sliced})
       })
     })
@@ -156,7 +154,6 @@ router.get('/comments/:postId', function(req,res) {
 router.post('/like', function(req, res) {
   Post.findById(req.body.postID, function(err,doc) {
     var post = doc.toJSON()
-    console.log(post)
     var comment = post.replies[req.body.commentIndex]
     comment.likes = comment.likes +1
     post.replies[req.body.commentIndex] = comment
@@ -172,7 +169,6 @@ router.post('/like', function(req, res) {
 
 router.post('/updateInfo', function(req,res) {
   User.findById(req.body.userId, function(err, doc) {
-    console.log(doc)
     var user = doc.toJSON()
     user.userInfo = {
       year: req.body.year,
@@ -203,9 +199,7 @@ router.post('/delete', function(req,res) {
 
 router.get('/count', function(req, res) {
   Count.find(function(err, count) {
-    console.log('Animal', req.query.animal)
     var number = count[0].count[req.query.animal]
-    console.log(number)
     res.json({success: true, number: number})
   })
 })
