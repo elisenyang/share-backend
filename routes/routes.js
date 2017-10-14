@@ -200,6 +200,16 @@ router.post('/delete', function(req,res) {
   })
 })
 
+
+router.get('/count', function(req, res) {
+  Count.find(function(err, count) {
+    console.log('Animal', req.query.animal)
+    var number = count[0].count[req.query.animal]
+    console.log(number)
+    res.json({success: true, number: number})
+  })
+})
+
 router.post('/count', function(req,res) {
   Count.find(function(err, count) {
     var updateCount = Object.assign({}, count[0].count)
@@ -215,6 +225,7 @@ router.post('/count', function(req,res) {
     })
   })
 })
+
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
 
