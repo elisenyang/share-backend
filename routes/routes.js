@@ -131,7 +131,7 @@ router.post('/ask', function(req,res) {
 
 router.post('/comment', function(req,res) {
   Post.findById(req.body.postId, function(err,doc) {
-    var commentId = doc.replies.length -1
+    var commentId = doc.replies.length
     doc.replies.push({
       user: req.body.user,
       content: req.body.message,
