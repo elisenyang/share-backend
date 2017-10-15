@@ -218,23 +218,31 @@ router.post('/deletePost', function(req,res) {
 
 router.get('/count', function(req, res) {
   console.log(req.query)
-  Post.findById(req.query.postId, function(err, post) {
-    var username;
-    for (var i=0; i<post.replies.length; i++) {
-      if (post.replies[i].user.id === req.query.userId) {
-        username = post.replies[i].user.animal
-        break;
+  if (req.query.postId) {
+    Post.findById(req.query.postId, function(err, post) {
+      var username;
+      for (var i=0; i<post.replies.length; i++) {
+        if (post.replies[i].user.id === req.query.userId) {
+          username = post.replies[i].user.animal
+          break;
+        }
       }
-    }
-    if (username) {
-      res.json({success: true, username: username})
-    } else {
+      if (username) {
+        res.json({success: true, username: username})
+      } else {
+        Count.find(function(err, count) {
+          var number = count[0].count[req.query.animal]
+          res.json({success: true, number: number})
+        })
+      }
+    })
+  } else {
+    console.log('HERE', req.query)
       Count.find(function(err, count) {
         var number = count[0].count[req.query.animal]
         res.json({success: true, number: number})
       })
     }
-  })
 })
 
 router.post('/count', function(req,res) {
