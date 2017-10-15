@@ -131,10 +131,12 @@ router.post('/ask', function(req,res) {
 
 router.post('/comment', function(req,res) {
   Post.findById(req.body.postId, function(err,doc) {
+    var commentId = doc.replies.length -1
     doc.replies.push({
       user: req.body.user,
       content: req.body.message,
-      likes: 0
+      likes: 0,
+      id: commentId
     })
     doc.save()
   }).then(() => {
@@ -187,7 +189,7 @@ router.post('/updateInfo', function(req,res) {
   })
 })
 
-router.post('/delete', function(req,res) {
+router.post('/deletePost', function(req,res) {
   Post.remove({ _id:req.body.postId}, function(err) {
     if (err) {
       res.json({error: err.message})
