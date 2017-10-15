@@ -153,6 +153,11 @@ router.get('/comments/:postId', function(req,res) {
   })
 })
 
+
+router.post('/deleteComment', function(req, res) {
+  console.log('YOYOOO', req.body)
+})
+
 router.post('/like', function(req, res) {
   Post.findById(req.body.postID, function(err,doc) {
     var post = doc.toJSON()
