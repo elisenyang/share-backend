@@ -155,7 +155,6 @@ router.get('/comments/:postId', function(req,res) {
 
 
 router.post('/deleteComment', function(req, res) {
-  console.log('YOYOOO', req.body)
   Post.findById(req.body.postId, function(err, doc) {
     var replies = [...doc.replies]
     replies.splice(req.body.commentId, 1)
