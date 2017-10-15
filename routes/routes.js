@@ -217,6 +217,7 @@ router.post('/deletePost', function(req,res) {
 
 
 router.get('/count', function(req, res) {
+  console.log(req.query)
   Count.find(function(err, count) {
     var number = count[0].count[req.query.animal]
     res.json({success: true, number: number})
