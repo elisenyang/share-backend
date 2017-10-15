@@ -156,6 +156,18 @@ router.get('/comments/:postId', function(req,res) {
 
 router.post('/deleteComment', function(req, res) {
   console.log('YOYOOO', req.body)
+  Post.findById(req.body.postId, function(err, doc) {
+    var replies = [...doc.replies]
+    replies.splice(req.body.commentId, 1)
+    doc.replies = replies
+    doc.save(function (err) {
+      if (err) {
+        res.json({success: false})
+      } else {
+        res.json({success: true})
+      }
+    })
+  })
 })
 
 router.post('/like', function(req, res) {
@@ -168,8 +180,9 @@ router.post('/like', function(req, res) {
     doc.save(function(err) {
       if (err) {
         res.json({success: false})
+      } else {
+        res.json({success: true})
       }
-      res.json({success: true})
     })
   })
 })
