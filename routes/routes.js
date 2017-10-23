@@ -166,7 +166,13 @@ router.get('/comments/:postId', function(req,res) {
 router.post('/deleteComment', function(req, res) {
   Post.findById(req.body.postId, function(err, doc) {
     var replies = [...doc.replies]
-    replies.splice(req.body.commentId, 1)
+    var index;
+    replies.forEach((comment) => {
+      if (comment.id === req.body.commentId) {
+        index = replies.indexOf(comment)
+      }
+    })
+    replies.splice(index, 1)
     doc.replies = replies
     doc.save(function (err) {
       if (err) {
