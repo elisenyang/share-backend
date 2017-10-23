@@ -113,6 +113,15 @@ router.post('/userInfo', function(req, res) {
   })
 })
 
+router.get('/userInfoComments/:userId', function(req, res) {
+  User.findById(req.params.userId, function(err, user) {
+    if (err) {
+      console.log(err.message)
+    }
+    res.json({userInfo: user.userInfo})
+  })
+})
+
 router.post('/ask', function(req,res) {
   var newPost = new Post({
     user: req.body.user,
