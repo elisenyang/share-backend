@@ -65,14 +65,7 @@ router.get('/posts', function(req,res) {
       // res.status(200).json(docs)
     }).then(docs => {
       var promises = []
-      var arr =[]
-      docs.forEach((post) => {
-        console.log('HERE', post.flagged)
-        if (!post.flagged) {
-          arr.push(post)
-        }
-      })
-      arr.forEach(post => {
+      docs.forEach(post => {
         promises.push(
           User.findById(post.user.id, function(err, user) {
             if (err) {
