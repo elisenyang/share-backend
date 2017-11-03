@@ -263,7 +263,7 @@ router.get('/count', function(req, res) {
 router.post('/count', function(req,res) {
   Count.find(function(err, count) {
     var updateCount = Object.assign({}, count[0].count)
-    updateCount[req.body.animal] = req.body.number;
+    updateCount[req.body.animal] = Number(req.body.number);
     count[0].count = updateCount
     count[0].save(function(err) {
       if (err) {
