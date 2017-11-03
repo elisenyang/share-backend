@@ -26,8 +26,8 @@ router.get('/posts', function(req,res) {
       }
     }).then(docs => {
       var promises = []
-      var arr =[]
-      docs.forEach((post) => {
+      var arr = []
+      docs.forEach(post => {
         if (!post.flagged) {
           arr.push(post)
         }
@@ -68,7 +68,6 @@ router.get('/posts', function(req,res) {
       var arr = []
       docs.forEach(post => {
         if (!post.flagged) {
-          console.log(post)
           arr.push(post)
         }
       })
