@@ -16,6 +16,7 @@ var userSchema = mongoose.Schema({
 
 var postSchema = mongoose.Schema({
   user: Object,
+  flagged: Boolean,
   date: Number,
   content: String,
   replies: []

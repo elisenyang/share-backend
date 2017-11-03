@@ -139,6 +139,7 @@ router.post('/ask', function(req,res) {
   var newPost = new Post({
     user: req.body.user,
     date: Date.now(),
+    flagged: true,
     content: req.body.message,
     replies: []
   })
