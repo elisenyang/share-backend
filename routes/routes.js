@@ -26,7 +26,13 @@ router.get('/posts', function(req,res) {
       }
     }).then(docs => {
       var promises = []
-      docs.forEach(post => {
+      var arr =[]
+      docs.forEach((post) => {
+        if (!post.flagged) {
+          arr.push(post)
+        }
+      })
+      arr.forEach(post => {
         promises.push(
           User.findById(post.user.id, function(err, user) {
             if (err) {
@@ -59,7 +65,13 @@ router.get('/posts', function(req,res) {
       // res.status(200).json(docs)
     }).then(docs => {
       var promises = []
-      docs.forEach(post => {
+      var arr =[]
+      docs.forEach((post) => {
+        if (!post.flagged) {
+          arr.push(post)
+        }
+      })
+      arr.forEach(post => {
         promises.push(
           User.findById(post.user.id, function(err, user) {
             if (err) {
