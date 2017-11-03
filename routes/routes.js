@@ -138,7 +138,7 @@ router.post('/ask', function(req,res) {
   var newPost = new Post({
     user: req.body.user,
     date: Date.now(),
-    flagged: true,
+    flagged: false,
     content: req.body.message,
     replies: []
   })
@@ -285,6 +285,23 @@ router.post('/count', function(req,res) {
         res.json({success: true})
       }
     })
+  })
+})
+
+router.post('/flag', function(req,res) {
+  Post.findById(req.body.postId, function(err, doc) {
+    if (err) {
+      console.log(err)
+    } else {
+      doc.flagged = true
+      doc.save(function(err) {
+        if (err) {
+          res.json({success: false})
+        } else {
+          res.json({success: true})
+        }
+      })
+    }
   })
 })
 
