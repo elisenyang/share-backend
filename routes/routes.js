@@ -67,7 +67,7 @@ router.get('/posts', function(req,res) {
       var promises = []
       var arr =[]
       docs.forEach((post) => {
-        console.log('HERE', post)
+        console.log('HERE', post.flagged)
         if (!post.flagged) {
           arr.push(post)
         }
