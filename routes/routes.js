@@ -315,8 +315,11 @@ router.post('/flagComment', function(req, res) {
         index = replies.indexOf(comment)
       }
     })
-
-    replies[index].flagged = true;
+    console.log('11111', replies[index])
+    var temp = Object.assign({}, replies[index])
+    temp.flagged = true;
+    replies[index] = temp
+    console.log('22222', replies[index])
     doc.replies = replies
     doc.save(function (err) {
       if (err) {
