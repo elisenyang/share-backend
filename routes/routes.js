@@ -325,6 +325,7 @@ router.post('/flagComment', function(req, res) {
         res.json({success: true})
       }
     })
+  })
 })
 
 
