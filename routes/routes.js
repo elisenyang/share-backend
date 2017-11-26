@@ -306,6 +306,18 @@ router.post('/flag', function(req,res) {
 })
 
 
+router.post('/flagComment', function(req, res) {
+  // Post.findById(req.body.postId, function (err, doc) {
+  //   if (err) {
+  //     console.log(err)
+  //   } else {
+
+  //   }
+  // })
+  console.log('HERREEEE', req.body)
+})
+
+
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
 
 module.exports = router;
