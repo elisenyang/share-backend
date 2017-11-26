@@ -307,14 +307,24 @@ router.post('/flag', function(req,res) {
 
 
 router.post('/flagComment', function(req, res) {
-  // Post.findById(req.body.postId, function (err, doc) {
-  //   if (err) {
-  //     console.log(err)
-  //   } else {
+  Post.findById(req.body.postId, function(err, doc) {
+    var replies = [...doc.replies]
+    var index;
+    replies.forEach((comment) => {
+      if (comment.id === req.body.commentId) {
+        index = replies.indexOf(comment)
+      }
+    })
 
-  //   }
-  // })
-  console.log('HERREEEE', req.body)
+    replies[index].flagged = true;
+    doc.replies = replies
+    doc.save(function (err) {
+      if (err) {
+        res.json({success: false})
+      } else {
+        res.json({success: true})
+      }
+    })
 })
 
 
