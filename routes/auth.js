@@ -39,7 +39,7 @@ module.exports = function (passport) {
     }));
 
     router.get('/loginSuccess', function(req,res) {
-        console.log(req.user)
+        console.log('HERRREE', req.user)
         res.json({user: req.user})
     })
 
