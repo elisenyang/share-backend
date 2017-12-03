@@ -39,6 +39,7 @@ module.exports = function (passport) {
     }));
 
     router.get('/loginSuccess', function(req,res) {
+        console.log(req.user)
         res.json({user: req.user})
     })
 
