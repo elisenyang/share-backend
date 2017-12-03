@@ -26,13 +26,7 @@ router.get('/posts', function(req,res) {
       }
     }).then(docs => {
       var promises = []
-      var arr = []
       docs.forEach(post => {
-        if (!post.flagged) {
-          arr.push(post)
-        }
-      })
-      arr.forEach(post => {
         promises.push(
           User.findById(post.user.id, function(err, user) {
             if (err) {
@@ -65,13 +59,7 @@ router.get('/posts', function(req,res) {
       // res.status(200).json(docs)
     }).then(docs => {
       var promises = []
-      var arr = []
       docs.forEach(post => {
-        if (!post.flagged) {
-          arr.push(post)
-        }
-      })
-      arr.forEach(post => {
         promises.push(
           User.findById(post.user.id, function(err, user) {
             if (err) {
@@ -315,11 +303,9 @@ router.post('/flagComment', function(req, res) {
         index = replies.indexOf(comment)
       }
     })
-    console.log('11111', replies[index])
     var temp = Object.assign({}, replies[index])
     temp.flagged = true;
     replies[index] = temp
-    console.log('22222', replies[index])
     doc.replies = replies
     doc.save(function (err) {
       if (err) {
