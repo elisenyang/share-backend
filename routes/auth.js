@@ -41,8 +41,9 @@ module.exports = function (passport) {
     router.get('/loginSuccess', function(req,res) {
         if (req.user.suspended && req.user.suspended.date > Date.now()) {
             res.json({suspended: true})
-        }
-        res.json({user: req.user})
+        } else {
+            res.json({user: req.user})
+        } 
     })
 
     router.get('/loginFailure', function(req,res) {
