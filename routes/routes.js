@@ -319,6 +319,7 @@ router.post('/flagComment', function(req, res) {
 router.get('/mycomments', function(req, res) {
   var resp = []
   Post.find(function(err, docs) {
+    console.log('HEREEE', docs)
     docs.forEach(doc => {
       doc.replies.forEach(comment => {
         if (comment.user.id === req.user._id) {
