@@ -323,7 +323,7 @@ router.get('/mycomments', function(req, res) {
       doc.replies.forEach(comment => {
         console.log('IDDDD', comment.user.id)
         console.log('REQ', req.user._id)
-        if (comment.user.id === req.user._id) {
+        if (String(comment.user.id) === String(req.user._id)) {
           console.log('Commnet!!!', comment)
           if (resp.indexOf(doc) === -1) {
             resp.push(doc)
