@@ -29,7 +29,9 @@ app.use(cookieParser());
 //Passport
 app.use(session({
   secret: process.env.SECRET,
-  store: new MongoStore({ mongooseConnection: mongoose.connection })
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  resave: true,
+  saveUninitialized: true
 }));
 
 app.set('view engine', 'html');
