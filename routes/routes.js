@@ -145,7 +145,7 @@ router.post('/comment', function(req,res) {
     doc.replies.push({
       user: req.body.user,
       content: req.body.message,
-      likes: 0,
+      likes: [],
       id: commentId
     })
     doc.save()
@@ -189,7 +189,7 @@ router.post('/like', function(req, res) {
   Post.findById(req.body.postID, function(err,doc) {
     var post = doc.toJSON()
     var comment = post.replies[req.body.commentIndex]
-    comment.likes = comment.likes +1
+    comment.likes.push(req.body.userId)
     post.replies[req.body.commentIndex] = comment
     doc.replies = post.replies
     doc.save(function(err) {
@@ -321,10 +321,7 @@ router.get('/mycomments', function(req, res) {
   Post.find(function(err, docs) {
     docs.forEach(doc => {
       doc.replies.forEach(comment => {
-        console.log('IDDDD', comment.user.id)
-        console.log('REQ', req.user._id)
         if (String(comment.user.id) === String(req.user._id)) {
-          console.log('Commnet!!!', comment)
           if (resp.indexOf(doc) === -1) {
             resp.push(doc)
           }
