@@ -186,6 +186,7 @@ router.post('/deleteComment', function(req, res) {
 })
 
 router.post('/like', function(req, res) {
+  console.log('HJIFEJOFJEW')
   Post.findById(req.body.postID, function(err,doc) {
     var post = doc.toJSON()
     console.log('HERRREE', req.body.userId)
