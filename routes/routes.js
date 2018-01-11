@@ -146,7 +146,8 @@ router.post('/comment', function(req,res) {
       user: req.body.user,
       content: req.body.message,
       likes: [],
-      id: commentId
+      id: commentId,
+      date: Date.now()
     })
     doc.save()
   }).then(() => {
