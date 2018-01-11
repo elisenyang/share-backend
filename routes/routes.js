@@ -186,11 +186,20 @@ router.post('/deleteComment', function(req, res) {
 })
 
 router.post('/like', function(req, res) {
-  console.log('HJIFEJOFJEW', req.body.liked)
   Post.findById(req.body.postID, function(err,doc) {
     var post = doc.toJSON()
     var comment = post.replies[req.body.commentIndex]
-    comment.likes.push(req.body.userId)
+    if (!req.body.liked) {
+      comment.likes.push(req.body.userId)
+    } else {
+      var removeLike = []
+      comment.likes.forEach(like => {
+        if (like !== req.body.userId) {
+          removeLike.push(like)
+        }
+      })
+      comment.likes = removeLike
+    }
     post.replies[req.body.commentIndex] = comment
     doc.replies = post.replies
     doc.save(function(err) {
