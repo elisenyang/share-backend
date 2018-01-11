@@ -188,6 +188,7 @@ router.post('/deleteComment', function(req, res) {
 router.post('/like', function(req, res) {
   Post.findById(req.body.postID, function(err,doc) {
     var post = doc.toJSON()
+    console.log('HERRREE', req.body.userId)
     var comment = post.replies[req.body.commentIndex]
     comment.likes.push(req.body.userId)
     post.replies[req.body.commentIndex] = comment
