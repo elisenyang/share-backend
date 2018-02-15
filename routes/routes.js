@@ -343,6 +343,76 @@ router.get('/mycomments', function(req, res) {
   })
 })
 
+router.get('/pulse', function(req, res) {
+  Post.find(function(err, docs) {
+    if (err) {
+      console.log(err.message)
+    } else {
+      return docs
+    }
+  }).then((docs) => {
+    var dataArr = []
+    docs.forEach(function(doc) {
+      dataArr.push(String(doc.content))
+      doc.replies.forEach(function(comment) {
+        dataArr.push(comment.content)
+      })
+    })
+    fetch('https://apiv2.indico.io/emotion/batch', {
+      method: 'POST',
+      body: JSON.stringify({
+        'api_key': '8786bb9f79fbd4817cb36a1aad444c9d',
+        'data': dataArr,
+        'threshold': 0.1
+      })
+    }).then(function(res) {
+      return res.json()
+    }).then(function(resJSON) {
+      var length = resJSON.results.length
+      var anger = 0
+      var fear = 0
+      var sadness = 0
+      var joy = 0
+      var surprise = 0
+  
+      resJSON.results.forEach(function(res) {
+        if (res.anger) {
+          anger += res.anger
+        }
+        if (res.fear) {
+          fear += res.fear
+        }
+        if (res.sadness) {
+          sadness += res.sadness
+        }
+        if (res.joy) {
+          joy += res.joy
+        }
+        if (res.surprise) {
+          surprise += res.surprise
+        }
+      })
+  
+      var final = {
+        anger: anger/length,
+        fear: fear/length,
+        sadness: sadness/length,
+        joy: joy/length,
+        surprise: surprise/length
+      }
+  
+      console.log('FINAL', final)
+  
+  
+  
+    }).catch(function(err) {
+      console.log(err.message)
+    })
+  }).catch(function(err) {
+    console.log(err.message)
+  })
+})
+
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
 
