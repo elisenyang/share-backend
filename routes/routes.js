@@ -400,9 +400,8 @@ router.get('/pulse', function(req, res) {
         joy: joy/length,
         surprise: surprise/length
       }
-  
-      console.log('FINAL', final)
-      res.json({results: final})
+      res.json(final)
+      console.log('FINALLLL', final)
   
   
   
