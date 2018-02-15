@@ -402,6 +402,7 @@ router.get('/pulse', function(req, res) {
       }
   
       console.log('FINAL', final)
+      res.json({results: final})
   
   
   
