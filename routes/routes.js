@@ -4,6 +4,7 @@ var models = require('../models/models');
 var User = models.User;
 var Post = models.Post;
 var Count = models.Count;
+const fetch = require('isomorphic-fetch')
 
 ///////////////////////////// END OF PUBLIC ROUTES /////////////////////////////
 
