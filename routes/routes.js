@@ -353,6 +353,7 @@ router.get('/pulse', function(req, res) {
     }
   }).then((docs) => {
     var dataArr = []
+    var numberConvos = docs.length
     docs.forEach(function(doc) {
       dataArr.push(String(doc.content))
       doc.replies.forEach(function(comment) {
@@ -401,10 +402,7 @@ router.get('/pulse', function(req, res) {
         joy: joy/length,
         surprise: surprise/length
       }
-      res.json(final)
-      console.log('FINALLLL', final)
-  
-  
+      res.json({data: final, numberConvos: numberConvos})
   
     }).catch(function(err) {
       console.log(err.message)
