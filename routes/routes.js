@@ -420,12 +420,12 @@ router.post('/seeWarning', function(req, res) {
         return doc
     }
   }).then((doc) => {
-    console.log('1111', doc)
-        console.log('jeiwojfefwf', doc.warnings)
-        doc.warnings = updated
-        console.log('33333', doc)
-        doc.save()
-    res.json({success: true})
+      doc.warnings.seen = true
+      console.log('33333', doc)
+      doc.save()
+      res.json({success: true})
+  }).catch(err => {
+    console.log(err)
   })
 })
 
