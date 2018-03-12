@@ -412,6 +412,16 @@ router.get('/pulse', function(req, res) {
   })
 })
 
+router.post('/seeWarning', function(req, res) {
+  User.findById(req.body.userId, function(err, doc) {
+    if (err) {
+      console.log(err.message)
+    } else {
+      console.log('HERRREEEEE', doc)
+    }
+  })
+})
+
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
 
