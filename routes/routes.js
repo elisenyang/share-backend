@@ -423,7 +423,8 @@ router.post('/seeWarning', function(req, res) {
       doc.warnings.seen = true
       console.log('33333', doc)
       doc.save()
-      res.json({success: true})
+  }).then(() => {
+    res.json({success: true})
   }).catch(err => {
     console.log(err)
   })
