@@ -413,11 +413,19 @@ router.get('/pulse', function(req, res) {
 })
 
 router.post('/seeWarning', function(req, res) {
-  User.findById(req.body.userId, function(err, doc) {
+  User.findById(req.body.userId, function(err, user) {
     if (err) {
       console.log(err.message)
     } else {
-      console.log('HERRREEEEE', doc)
+      user.warning.seen = false
+      user.save(function(err) {
+        if (err) {
+          console.log(err.message)
+        } else {
+          console.log('OYOYOY', user)
+          res.json(true)
+        }
+      })
     }
   })
 })
