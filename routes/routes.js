@@ -417,15 +417,16 @@ router.post('/seeWarning', function(req, res) {
     if (err) {
       console.log(err.message)
     } else {
-        console.log('1111', doc.suspended)
+        return doc
+    }
+  }).then((doc) => {
+    console.log('1111', doc.suspended)
         var updated = Object.assign({}, doc.warnings)
         console.log('jeiwojfefwf', updated)
         updated.warnings.seen = true
         doc.warnings = updated
         console.log('33333', doc)
         doc.save()
-    }
-  }).then(() => {
     res.json({success: true})
   })
 })
