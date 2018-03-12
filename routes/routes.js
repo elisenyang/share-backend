@@ -413,11 +413,12 @@ router.get('/pulse', function(req, res) {
 })
 
 router.post('/seeWarning', function(req, res) {
-  User.findById(req.body.userId, function(err, user) {
+  User.findById(req.body.userId, function(err, doc) {
     if (err) {
       console.log(err.message)
     } else {
-      var newUser = Object.assign({}, user)
+      var newUser = Object.assign({}, doc)
+      console.log('NEWWW', newUser)
       newUser.warnings.seen = true
       user = newUser
       user.save(function(err) {
