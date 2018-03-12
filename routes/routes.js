@@ -418,7 +418,9 @@ router.post('/seeWarning', function(req, res) {
       console.log(err.message)
     } else {
       if (doc.warnings) {
-        doc.warnings.seen = true
+        var updated = Object.assign({}, doc.warnings)
+        updated.warnings.seen = true
+        doc.warnings = updated
         doc.save(function(err) {
           if (err) {
             console.log(err.message)
