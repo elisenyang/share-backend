@@ -11,6 +11,12 @@ var userSchema = mongoose.Schema({
   },
   userInfo: {
     type: Object
+  },
+  warnings: {
+    type: Object
+  },
+  suspendend: {
+    type: Object
   }
 });
 

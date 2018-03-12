@@ -420,10 +420,8 @@ router.post('/seeWarning', function(req, res) {
         return doc
     }
   }).then((doc) => {
-    console.log('1111', doc.suspended)
-        var updated = Object.assign({}, doc.warnings)
-        console.log('jeiwojfefwf', updated)
-        updated.warnings.seen = true
+    console.log('1111', doc)
+        console.log('jeiwojfefwf', doc.warnings)
         doc.warnings = updated
         console.log('33333', doc)
         doc.save()
