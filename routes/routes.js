@@ -417,7 +417,9 @@ router.post('/seeWarning', function(req, res) {
     if (err) {
       console.log(err.message)
     } else {
-      user.warning.seen = false
+      var newUser = Object.assign({}, user)
+      newUser.warnings.seen = true
+      user = newUser
       user.save(function(err) {
         if (err) {
           console.log(err.message)
