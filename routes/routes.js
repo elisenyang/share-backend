@@ -419,8 +419,7 @@ router.post('/seeWarning', function(req, res) {
     } else {
       if (doc.warnings) {
         doc.warnings.seen = true
-        user = newUser
-        user.save(function(err) {
+        doc.save(function(err) {
           if (err) {
             console.log(err.message)
           } else {
