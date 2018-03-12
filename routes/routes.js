@@ -428,11 +428,12 @@ router.post('/seeWarning', function(req, res) {
           if (err) {
             console.log(err.message)
           } else {
+            res.json(true)
             console.log('OYOYOY', user)
           }
         })
       }
-      res.json(true)
+
     }
   })
 })
