@@ -456,19 +456,35 @@ router.post('/seeWarning', function(req, res) {
 })
 
 router.get('/myHearts', function(req,res) {
-  User.findById(req.user._id, function(err, user) {
-    var postsArr = []
-    user.hearts.forEach(heart => {
-      Post.findById(heart.post, function(err, post) {
-        postsArr.push(post)
+  var resp = []
+  Post.find(function(err, docs) {
+    docs.forEach(doc => {
+      doc.replies.forEach(comment => {
+        comment.likes.forEach(like => {
+          if (like === req.user._id && resp.indexOf(doc) === -1) {
+            resp.push(doc)
+          }
+        })
       })
     })
-    return postsArr
-  }).then(postsArr => {
-    console.log('POSTSARR', postsArr)
   })
-  res.json([])
+  console.log('RESSPP', resp)
+  res.json(resp)
 })
+
+
+// var resp = []
+// Post.find(function(err, docs) {
+//   docs.forEach(doc => {
+//     doc.replies.forEach(comment => {
+//       if (String(comment.user.id) === String(req.user._id)) {
+//         if (resp.indexOf(doc) === -1) {
+//           resp.push(doc)
+//         }
+//       }
+//     })
+//   })
+//   res.json(resp)
 
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
