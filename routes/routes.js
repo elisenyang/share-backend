@@ -463,11 +463,7 @@ router.get('/myHearts', function(req,res) {
         resp.push(post)
       })
     })
-    return resp
-  }).then(resp => {
     res.json(resp)
-  }).catch(err => {
-    console.log(err)
   })
 })
 
