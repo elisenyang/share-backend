@@ -463,8 +463,8 @@ router.get('/myHearts', function(req,res) {
         postsArr.push(post)
       })
     })
-    return posts
-  }).then(posts => {
+    return postsArr
+  }).then(postsArr => {
     console.log('respppp', postsArr)
     res.json(postsArr)
   })
