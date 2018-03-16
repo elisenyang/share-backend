@@ -457,19 +457,16 @@ router.post('/seeWarning', function(req, res) {
 
 router.get('/myHearts', function(req,res) {
   User.findById(req.user._id, function(err, user) {
-    var posts = []
+    var postsArr = []
     user.hearts.forEach(heart => {
       Post.findById(heart.post, function(err, post) {
-        if (err) {
-          console.log(err)
-        }
-        posts.push(post)
+        postsArr.push(post)
       })
     })
     return posts
   }).then(posts => {
-    console.log('respppp', posts)
-    res.json(resp)
+    console.log('respppp', postsArr)
+    res.json(postsArr)
   })
 })
 
