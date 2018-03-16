@@ -461,6 +461,10 @@ router.get('/myHearts', function(req,res) {
     console.log('heartsss', user.hearts)
     user.hearts.forEach(heart => {
       Post.findById(heart.post, function(err, post) {
+        if (err) {
+          console.log(err)
+        }
+        console.log('POSTTTT', post)
         resp.push(post)
       })
     })
