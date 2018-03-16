@@ -455,6 +455,12 @@ router.post('/seeWarning', function(req, res) {
   })
 })
 
+router.get('/myHearts', function(req,res) {
+  User.findById(req.user._id, function(err, user) {
+    res.json(user.hearts)
+  })
+})
+
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
 
