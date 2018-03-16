@@ -461,15 +461,15 @@ router.get('/myHearts', function(req,res) {
     docs.forEach(doc => {
       doc.replies.forEach(comment => {
         comment.likes.forEach(like => {
-          if (like === req.user._id && resp.indexOf(doc) === -1) {
+          if (String(like) === String(req.user._id) && resp.indexOf(doc) === -1) {
             resp.push(doc)
           }
         })
       })
     })
+    console.log('RESSPP', resp)
+    res.json(resp)
   })
-  console.log('RESSPP', resp)
-  res.json(resp)
 })
 
 
