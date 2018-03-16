@@ -17,6 +17,9 @@ var userSchema = mongoose.Schema({
   },
   suspendend: {
     type: Object
+  },
+  hearts: {
+    type: Array
   }
 });
 
