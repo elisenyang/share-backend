@@ -463,6 +463,8 @@ router.get('/myHearts', function(req,res) {
         postsArr.push(post)
       })
     })
+    return postsArr
+  }).then(postsArr => {
     console.log('POSTSARR', postsArr)
   })
   res.json([])
