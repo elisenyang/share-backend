@@ -210,7 +210,7 @@ router.post('/like', function(req, res) {
       comment.likes.push(req.body.userId)
     }
     User.findById(req.body.userId, function(err, user) {
-      if (liked === true) {
+      if (liked === false) {
         user.hearts.push({
           post: req.body.postID,
           comment: req.body.commentIndex
