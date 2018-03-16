@@ -208,14 +208,24 @@ router.post('/like', function(req, res) {
       comment.likes = removed
     } else {
       comment.likes.push(req.body.userId)
-      User.findById(req.body.userId, function(err, user) {
+    }
+    User.findById(req.body.userId, function(err, user) {
+      if (liked === true) {
         user.hearts.push({
           post: req.body.postID,
           comment: req.body.commentIndex
         })
-        user.save()
-      })
-    }
+      } else {
+        var newHearts = []
+        user.hearts.forEach(heart => {
+          if (heart.post !== req.body.postId && heart.comment !== req.body.commentIndex) {
+            newHearts.push(heart)
+          }
+        })
+        user.hearts = newHearts
+      }
+      user.save()
+    })
     post.replies[req.body.commentIndex] = comment
     doc.replies = post.replies
     doc.save(function(err) {
