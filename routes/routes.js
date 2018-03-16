@@ -191,17 +191,6 @@ router.post('/like', function(req, res) {
   Post.findById(req.body.postID, function(err,doc) {
     var post = doc.toJSON()
     var comment = post.replies[req.body.commentIndex]
-    // if (!req.body.liked) {
-    //   comment.likes.push(req.body.userId)
-    // } else {
-    //   var removeLike = []
-    //   comment.likes.forEach(like => {
-    //     if (like !== req.body.userId) {
-    //       removeLike.push(like)
-    //     }
-    //   })
-    //   comment.likes = removeLike
-    // }
     var liked = false
     var removed = []
     var updated = []
@@ -219,6 +208,13 @@ router.post('/like', function(req, res) {
       comment.likes = removed
     } else {
       comment.likes.push(req.body.userId)
+      User.findById(req.body.userId, function(err, user) {
+        user.hearts.push({
+          post: req.body.postID,
+          comment: req.body.commentIndex
+        })
+        user.save()
+      })
     }
     post.replies[req.body.commentIndex] = comment
     doc.replies = post.replies
