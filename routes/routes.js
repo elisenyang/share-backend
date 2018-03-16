@@ -457,7 +457,17 @@ router.post('/seeWarning', function(req, res) {
 
 router.get('/myHearts', function(req,res) {
   User.findById(req.user._id, function(err, user) {
-    res.json(user.hearts)
+    var resp = []
+    user.hearts.forEach(heart => {
+      Post.findById(heart.post, function(err, post) {
+        resp.push(post)
+      })
+    })
+    return resp
+  }).then(resp => {
+    res.json(resp)
+  }).catch(err => {
+    console.log(err)
   })
 })
 
