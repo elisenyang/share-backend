@@ -468,6 +468,8 @@ router.get('/myHearts', function(req,res) {
         resp.push(post)
       })
     })
+    return resp
+  }).then(resp => {
     console.log('respppp', resp)
     res.json(resp)
   })
