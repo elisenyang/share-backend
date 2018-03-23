@@ -264,14 +264,16 @@ router.post('/like', function(req, res) {
         seen: false
       }
       user.notifications.push(newNotification)
+      console.log('USERRRRR', user)
       user.save(function(err) {
         if (err) {
+          console.log(err.message)
           res.json({success: false})
         }
       })
   })
   }).then(()=> {
-    res.json({success: true})
+      res.json({success: true})
   }).catch(err => {
     console.log(err.message)
   })
