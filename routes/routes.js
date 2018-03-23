@@ -152,7 +152,6 @@ router.post('/comment', function(req,res) {
     })
     doc.save()
   }).then((doc) => {
-    console.log('THIS IS DOC', doc)
     User.findById(doc.user.id, function(err, user) {
       var newNotification = {
         from: doc.user.animal,
@@ -227,6 +226,14 @@ router.post('/like', function(req, res) {
           post: req.body.postID,
           comment: req.body.commentIndex
         })
+        var newNotification = {
+          from: doc.user.animal,
+          type: 'like',
+          date: Date.now(),
+          seen: false
+        }
+        user.notifications.push(newNotification)
+        user.save()
       } else {
         var newHearts = []
         user.hearts.forEach(heart => {
