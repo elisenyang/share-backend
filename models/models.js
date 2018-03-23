@@ -18,7 +18,7 @@ var userSchema = mongoose.Schema({
   suspendend: {
     type: Object
   },
-  hearts: {
+  notifications: {
     type: Array
   }
 });

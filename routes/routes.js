@@ -151,7 +151,8 @@ router.post('/comment', function(req,res) {
       date: Date.now()
     })
     doc.save()
-  }).then(() => {
+  }).then((doc) => {
+    console.log('THIS IS DOC', doc)
     res.json({success: true})
   }).catch(() => {
     res.json({error: 'Could not post comment'})
@@ -467,7 +468,6 @@ router.get('/myHearts', function(req,res) {
         })
       })
     })
-    console.log('RESSPP', resp)
     res.json(resp)
   })
 })
