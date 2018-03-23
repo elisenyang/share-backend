@@ -255,23 +255,32 @@ router.post('/like', function(req, res) {
       }
     })
   }).then(doc => {
-    User.findById(doc.user.id, function(err, user) {
-      var newNotification = {
-        type: 'like',
-        postId: req.body.postId,
-        comment: doc.replies.length,
-        date: Date.now(),
-        seen: false
+    var post = doc.toJSON()
+    var comment = post.replies[req.body.commentIndex]
+    var liked = false
+    comment.likes.forEach(like => {
+      if (like === req.body.userId) {
+        liked = true
       }
-      user.notifications.push(newNotification)
-      console.log('USERRRRR', user)
-      user.save(function(err) {
-        if (err) {
-          console.log(err.message)
-          res.json({success: false})
+    })
+    if (liked === false) {
+      User.findById(comment.user.id, function(err, user) {
+        var newNotification = {
+          type: 'like',
+          postId: req.body.postId,
+          comment: doc.replies.length,
+          date: Date.now(),
+          seen: false
         }
+        user.notifications.push(newNotification)
+        user.save(function(err) {
+          if (err) {
+            console.log(err.message)
+            res.json({success: false})
+          }
+        })
       })
-  })
+    }
   }).then(()=> {
       res.json({success: true})
   }).catch(err => {
