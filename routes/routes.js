@@ -270,10 +270,11 @@ router.post('/like', function(req, res) {
         }
       })
   })
-}).then(()=> {
-  res.json({success: true})
-}).catch(err => {
-  console.log(err.message)
+  }).then(()=> {
+    res.json({success: true})
+  }).catch(err => {
+    console.log(err.message)
+  })
 })
 
 router.post('/updateInfo', function(req,res) {
