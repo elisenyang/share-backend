@@ -513,18 +513,9 @@ router.get('/myHearts', function(req,res) {
 })
 
 
-// var resp = []
-// Post.find(function(err, docs) {
-//   docs.forEach(doc => {
-//     doc.replies.forEach(comment => {
-//       if (String(comment.user.id) === String(req.user._id)) {
-//         if (resp.indexOf(doc) === -1) {
-//           resp.push(doc)
-//         }
-//       }
-//     })
-//   })
-//   res.json(resp)
+router.get('/myNotifications', function(req,res) {
+  res.json(req.user.notifications)
+})
 
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
