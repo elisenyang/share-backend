@@ -226,14 +226,6 @@ router.post('/like', function(req, res) {
           post: req.body.postID,
           comment: req.body.commentIndex
         })
-        var newNotification = {
-          from: req.body.user.animal,
-          type: 'like',
-          date: Date.now(),
-          seen: false
-        }
-        user.notifications.push(newNotification)
-        user.save()
       } else {
         var newHearts = []
         user.hearts.forEach(heart => {
