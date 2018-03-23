@@ -154,7 +154,7 @@ router.post('/comment', function(req,res) {
   }).then((doc) => {
     User.findById(doc.user.id, function(err, user) {
       var newNotification = {
-        from: doc.user.animal,
+        from: req.body.user.animal,
         type: 'comment',
         date: Date.now(),
         seen: false
@@ -227,7 +227,7 @@ router.post('/like', function(req, res) {
           comment: req.body.commentIndex
         })
         var newNotification = {
-          from: doc.user.animal,
+          from: req.body.user.animal,
           type: 'like',
           date: Date.now(),
           seen: false
