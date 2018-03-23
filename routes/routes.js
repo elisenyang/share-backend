@@ -153,6 +153,17 @@ router.post('/comment', function(req,res) {
     doc.save()
   }).then((doc) => {
     console.log('THIS IS DOC', doc)
+    User.findById(doc.user.id, function(err, user) {
+      var newNotification = {
+        from: doc.user.animal,
+        type: 'comment',
+        date: Date.now(),
+        seen: false
+      }
+      user.notifications.push(newNotification)
+      user.save()
+    })
+  }).then(()=> {
     res.json({success: true})
   }).catch(() => {
     res.json({error: 'Could not post comment'})
