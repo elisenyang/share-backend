@@ -164,7 +164,7 @@ router.post('/comment', function(req,res) {
       user.notifications.push(newNotification)
       user.save(function(err) {
         if (err) {
-          connsole.log(err)
+          console.log(err)
         }
       })
     })
@@ -232,14 +232,6 @@ router.post('/like', function(req, res) {
           post: req.body.postID,
           comment: req.body.commentIndex
         })
-        var newNotification = {
-          type: 'like',
-          date: Date.now(),
-          postId: req.body.postID,
-          comment: req.body.commentIndex,
-          seen: false
-        }
-        user.notifications.push(newNotification)
       } else {
         var newHearts = []
         user.hearts.forEach(heart => {
@@ -260,11 +252,28 @@ router.post('/like', function(req, res) {
     doc.save(function(err) {
       if (err) {
         res.json({success: false})
-      } else {
-        res.json({success: true})
       }
     })
+  }).then(doc => {
+    User.findById(doc.user.id, function(err, user) {
+      var newNotification = {
+        type: 'like',
+        postId: req.body.postId,
+        comment: doc.replies.length,
+        date: Date.now(),
+        seen: false
+      }
+      user.notifications.push(newNotification)
+      user.save(function(err) {
+        if (err) {
+          res.json({success: false})
+        }
+      })
   })
+}).then(()=> {
+  res.json({success: true})
+}).catch(err => {
+  console.log(err.message)
 })
 
 router.post('/updateInfo', function(req,res) {
