@@ -162,7 +162,11 @@ router.post('/comment', function(req,res) {
         seen: false
       }
       user.notifications.push(newNotification)
-      user.save()
+      user.save(function(err) {
+        if (err) {
+          connsole.log(err)
+        }
+      })
     })
   }).then(()=> {
     res.json({success: true})
@@ -245,7 +249,11 @@ router.post('/like', function(req, res) {
         })
         user.hearts = newHearts
       }
-      user.save()
+      user.save(function(err) {
+        if (err) {
+          console.log(err)
+        }
+      })
     })
     post.replies[req.body.commentIndex] = comment
     doc.replies = post.replies
