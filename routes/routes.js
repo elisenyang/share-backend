@@ -523,7 +523,15 @@ router.get('/myHearts', function(req,res) {
 
 
 router.get('/myNotifications', function(req,res) {
-  res.json(req.user.notifications)
+  var sorted = req.user.notifications.sort(function(a,b) {
+    if (b.date > a.date) {
+      return 1
+    }
+    if (b.date < a.date) {
+      return -1
+    }
+  })
+  res.json(sorted)
 })
 
 
