@@ -267,7 +267,7 @@ router.post('/like', function(req, res) {
       User.findById(comment.user.id, function(err, user) {
         var newNotification = {
           type: 'like',
-          postId: req.body.postId,
+          postId: req.body.postID,
           comment: doc.replies.length,
           date: Date.now(),
           seen: false
