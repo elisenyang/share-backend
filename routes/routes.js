@@ -534,6 +534,12 @@ router.get('/myNotifications', function(req,res) {
   res.json(sorted)
 })
 
+router.get('/notificationPost', function(req,res) {
+  Post.findById(req.query.postID, function(err, post) {
+    res.json(post)
+  })
+})
+
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
 
