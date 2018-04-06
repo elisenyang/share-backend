@@ -269,6 +269,7 @@ router.post('/like', function(req, res) {
           type: 'like',
           postId: req.body.postID,
           comment: doc.replies.length,
+          content: comment.content,
           date: Date.now(),
           seen: false
         }
