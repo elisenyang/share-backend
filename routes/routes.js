@@ -74,7 +74,7 @@ router.get('/posts', function(req,res) {
               console.log(err)
             }
           }).then(user => {
-            console.log('THIS IS USER', user)
+            console.log('THIS IS USER', post.user.id, user)
             post.user.userInfo = user.userInfo
             return post;
           }).catch(err => {
