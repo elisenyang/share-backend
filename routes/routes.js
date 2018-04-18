@@ -51,6 +51,8 @@ router.get('/posts', function(req,res) {
         })
         res.json(resp)
       })
+    }).catch(err => {
+      console.log(err.message)
     })
   } else {
     Post.find(function(err, docs) {
@@ -89,6 +91,8 @@ router.get('/posts', function(req,res) {
         var sliced = resp.slice((req.query.page*10)-10, end)
         res.json({arr: sorted})
       })
+    }).catch(err => {
+      console.log(err.message)
     })
   }
 })
