@@ -69,10 +69,12 @@ router.get('/posts', function(req,res) {
       docs.forEach(post => {
         promises.push(
           User.findById(post.user.id, function(err, user) {
+            console.log('JEIJOWEW', post.user.id)
             if (err) {
               console.log(err)
             }
-          }).then(user=> {
+          }).then(user => {
+            console.log('THIS IS USER', user)
             post.user.userInfo = user.userInfo
             return post;
           }).catch(err => {
