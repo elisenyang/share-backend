@@ -75,6 +75,8 @@ router.get('/posts', function(req,res) {
           }).then(user=> {
             post.user.userInfo = user.userInfo
             return post;
+          }).catch(err => {
+            console.log(err.message)
           })
         )
       })
