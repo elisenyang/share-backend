@@ -36,6 +36,8 @@ router.get('/posts', function(req,res) {
           }).then(user=> {
             post.user.userInfo = user.userInfo
             return post;
+          }).catch(err => {
+            console.log(err.message)
           })
         )
       })
@@ -50,6 +52,8 @@ router.get('/posts', function(req,res) {
            }
         })
         res.json(resp)
+      }).catch(err => {
+        console.log(err.message)
       })
     }).catch(err => {
       console.log(err.message)
