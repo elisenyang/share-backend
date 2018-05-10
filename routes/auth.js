@@ -41,13 +41,6 @@ module.exports = function (passport) {
     }));
 
     router.get('/loginSuccess', function(req,res) {
-        if (req.user.hasOwnProperty('new') && req.user.new) {
-            User.findById(req.user._id, function(err, user) {
-                console.log("HEREEEE", user)
-               user.new = false
-               user.save()
-            })
-          }
             res.json({user: req.user})
     })
 

@@ -550,9 +550,17 @@ router.get('/notificationPost', function(req,res) {
   })
 })
 
-// router.post('/newUser', function(req, res) {
-  
-// })
+router.post('/newUser', function(req, res) {
+  if (req.user.hasOwnProperty('new') && req.user.new) {
+    User.findById(req.user._id, function(err, user) {
+        console.log("HEREEEE", user)
+       user.new = false
+       user.save()
+    }).then(() => {
+      res.json('success')
+    })
+  }
+})
 
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
