@@ -553,6 +553,10 @@ router.get('/notificationPost', function(req,res) {
   })
 })
 
+// router.post('/newUser', function(req, res) {
+  
+// })
+
 
 ///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
 
