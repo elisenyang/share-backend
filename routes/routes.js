@@ -551,7 +551,7 @@ router.get('/notificationPost', function(req,res) {
 })
 
 router.post('/newUser', function(req, res) {
-  if (req.user.hasOwnProperty('new') && req.user.new) {
+  if (req.user.new) {
     User.findById(req.user._id, function(err, user) {
         console.log("HEREEEE", user)
        user.new = false
@@ -559,6 +559,9 @@ router.post('/newUser', function(req, res) {
     }).then(() => {
       res.json('success')
     })
+  } else {
+    console.log('jfeifjoiejfioej')
+    res.json('success')
   }
 })
 
