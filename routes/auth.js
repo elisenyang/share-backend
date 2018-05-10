@@ -15,7 +15,8 @@ module.exports = function (passport) {
                 gender: req.body.userInfo.gender,
                 age: req.body.userInfo.age
             },
-            new: true
+            new: true,
+            warnings: {}
         })
 
         if (req.body.email && req.body.password) {
@@ -40,6 +41,14 @@ module.exports = function (passport) {
     }));
 
     router.get('/loginSuccess', function(req,res) {
+            if (req.user.new) {
+                User.findById(req.user._id, function(err, user) {
+                   var updateUser = Object.assign({}, user)
+                   updateUser.new = false
+                   user = updateUser
+                   user.save()
+                })
+            }
             res.json({user: req.user})
     })
 
