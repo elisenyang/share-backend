@@ -23,6 +23,9 @@ var userSchema = mongoose.Schema({
   },
   notifications: {
     type: Array
+  },
+  new: {
+    type: Boolean
   }
 });
 

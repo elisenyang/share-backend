@@ -14,7 +14,8 @@ module.exports = function (passport) {
                 school: req.body.userInfo.school,
                 gender: req.body.userInfo.gender,
                 age: req.body.userInfo.age
-            }
+            },
+            new: true
         })
 
         if (req.body.email && req.body.password) {
